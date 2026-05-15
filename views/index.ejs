@@ -1,0 +1,25 @@
+<%- include('partials/header', { title: 'Home', page: 'home' }) %>
+
+<div class="hero">
+  <h1>Create playlists for every mood.</h1>
+  <p>Search for songs using the iTunes catalog, build a playlist, and save it to your collection.</p>
+  <a href="/playlists/new" class="btn btn-primary">+ Create a Playlist</a>
+</div>
+
+<% if (playlists.length > 0) { %>
+  <section>
+    <h2 class="section-heading">Recent Playlists</h2>
+    <div class="card-grid">
+      <% playlists.forEach(pl => { %>
+        <a href="/playlists/<%= pl._id %>" class="card">
+          <div class="card-mood mood-<%= pl.mood %>"><%= pl.mood %></div>
+          <div class="card-name"><%= pl.name %></div>
+          <div class="card-meta"><%= pl.songs.length %> song<%= pl.songs.length !== 1 ? 's' : '' %></div>
+        </a>
+      <% }) %>
+    </div>
+    <p style="margin-top:16px;"><a href="/playlists">View all playlists &rarr;</a></p>
+  </section>
+<% } %>
+
+<%- include('partials/footer') %>

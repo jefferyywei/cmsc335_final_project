@@ -1,0 +1,43 @@
+<%- include('partials/header', { title: playlist.name, page: 'playlists' }) %>
+
+<a href="/playlists" class="back-link">&larr; Back to Playlists</a>
+
+<div class="detail-header">
+  <h1 class="page-title"><%= playlist.name %></h1>
+  <span class="badge mood-<%= playlist.mood %>"><%= playlist.mood %></span>
+</div>
+
+<p class="detail-meta">
+  <%= playlist.songs.length %> song<%= playlist.songs.length !== 1 ? 's' : '' %> &bull;
+  Target: <%= playlist.numSongs %> songs &bull;
+  Created <%= new Date(playlist.createdAt).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) %>
+</p>
+
+<% if (playlist.songs.length === 0) { %>
+  <p class="help-text">No songs were added to this playlist.</p>
+<% } else { %>
+  <div class="song-table">
+    <% playlist.songs.forEach((song, i) => { %>
+      <div class="song-table-row">
+        <span class="song-num"><%= i + 1 %></span>
+        <% if (song.albumCover) { %>
+          <img src="<%= song.albumCover %>" alt="" class="result-img" />
+        <% } %>
+        <div class="result-info">
+          <strong><%= song.title %></strong><br/>
+          <span><%= song.artist %></span>
+        </div>
+        <% if (song.previewUrl) { %>
+          <audio controls src="<%= song.previewUrl %>" class="audio-preview"></audio>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<form action="/playlists/<%= playlist._id %>/delete" method="POST" style="margin-top:32px;"
+      onsubmit="return confirm('Delete this playlist?')">
+  <button type="submit" class="btn btn-danger">Delete Playlist</button>
+</form>
+
+<%- include('partials/footer') %>

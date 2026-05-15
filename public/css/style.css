@@ -1,0 +1,414 @@
+/* ==============================================
+   MoodTunes — style.css
+   Google Fonts: Inter (body), Syne (headings)
+   ============================================== */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  background-color: #f4f1ee;
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #5b3ef5;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+h1, h2, h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* --- Navbar --- */
+.navbar {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 56px;
+}
+
+.nav-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 4px;
+}
+
+.nav-links a {
+  font-size: 0.88rem;
+  color: #aaa;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #333;
+  color: #ffffff;
+}
+
+/* --- Container --- */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+  flex: 1;
+}
+
+/* --- Footer --- */
+.footer {
+  background-color: #1a1a1a;
+  color: #888;
+  font-size: 0.82rem;
+  text-align: center;
+  padding: 18px;
+}
+.footer a { color: #aaa; }
+
+/* --- Hero --- */
+.hero {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 48px 40px;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: #bbb;
+  margin-bottom: 24px;
+  max-width: 480px;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, background 0.15s;
+  text-decoration: none;
+}
+.btn:hover { opacity: 0.88; text-decoration: none; }
+
+.btn-primary   { background-color: #5b3ef5; color: #ffffff; }
+.btn-secondary { background-color: #e8e4ff; color: #3a25c4; }
+.btn-ghost     { background-color: #e5e5e5; color: #333; }
+.btn-danger    { background-color: #d93025; color: #ffffff; }
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+}
+
+/* --- Alerts --- */
+.alert {
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+.alert-error {
+  background-color: #fde8e7;
+  color: #a01010;
+  border: 1px solid #f5c6c4;
+}
+
+/* --- Page titles --- */
+.page-title {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.page-header-row .page-title { margin-bottom: 0; }
+
+.section-heading {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+.back-link {
+  font-size: 0.88rem;
+  color: #555;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+/* --- Form --- */
+.form-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  border: 1px solid #ddd;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.required { color: #d93025; }
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: #5b3ef5; background-color: #fff; }
+
+.help-text { font-size: 0.88rem; color: #666; margin-bottom: 14px; }
+
+.divider {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 24px 0;
+}
+
+/* --- Song search --- */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.search-bar .form-input { flex: 1; }
+
+.search-results {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.search-results.hidden { display: none; }
+
+.result-item, .song-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.result-item:last-child, .song-row:last-child { border-bottom: none; }
+
+.result-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  background-color: #eee;
+  flex-shrink: 0;
+}
+
+.result-info {
+  flex: 1;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  min-width: 0;
+}
+.result-info strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+.result-info span { color: #666; }
+
+.no-results { padding: 16px; color: #888; font-size: 0.88rem; }
+
+/* --- Song list in form --- */
+.song-list {
+  background-color: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  min-height: 60px;
+  margin-bottom: 16px;
+  padding: 4px 0;
+}
+
+.empty-songs {
+  padding: 16px;
+  color: #aaa;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+/* --- Card grid --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 18px;
+  transition: box-shadow 0.15s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.10); text-decoration: none; }
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 12px;
+}
+.card-link:hover { text-decoration: none; }
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.card-meta {
+  font-size: 0.82rem;
+  color: #888;
+}
+
+.delete-form { margin-top: 0; }
+
+/* --- Mood badge --- */
+.card-mood, .badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+}
+
+.mood-happy     { background-color: #fff8cc; color: #7a6500; }
+.mood-sad       { background-color: #e0e8ff; color: #2040a0; }
+.mood-energetic { background-color: #ffe5d9; color: #b03010; }
+.mood-chill     { background-color: #d9f5f8; color: #0a7080; }
+.mood-romantic  { background-color: #ffe0ee; color: #a0205a; }
+.mood-angry     { background-color: #fde0d9; color: #901010; }
+.mood-focused   { background-color: #e0f8e0; color: #1a6a1a; }
+
+/* --- Playlist detail --- */
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.detail-header .page-title { margin-bottom: 0; }
+
+.detail-meta {
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.song-table { border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+
+.song-table-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fff;
+}
+.song-table-row:last-child { border-bottom: none; }
+.song-table-row:nth-child(even) { background-color: #fafafa; }
+
+.song-num {
+  font-size: 0.82rem;
+  color: #aaa;
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.audio-preview {
+  height: 32px;
+  flex-shrink: 0;
+}
+
+/* --- Empty state --- */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+.empty-state h1 { font-size: 3rem; margin-bottom: 8px; color: #ccc; }
+.empty-state p  { margin-bottom: 20px; }
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .navbar { padding: 0 16px; }
+  .container { padding: 24px 16px 48px; }
+  .hero { padding: 32px 24px; }
+  .hero h1 { font-size: 1.6rem; }
+  .form-box { padding: 20px; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .page-header-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .detail-header { flex-direction: column; align-items: flex-start; }
+  .audio-preview { width: 100%; }
+}

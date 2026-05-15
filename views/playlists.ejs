@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: 'My Playlists', page: 'playlists' }) %>
+
+<div class="page-header-row">
+  <h1 class="page-title">My Playlists</h1>
+  <a href="/playlists/new" class="btn btn-primary">+ New Playlist</a>
+</div>
+
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<% if (playlists.length === 0) { %>
+  <div class="empty-state">
+    <p>No playlists yet.</p>
+    <a href="/playlists/new" class="btn btn-primary">Create your first playlist</a>
+  </div>
+<% } else { %>
+  <div class="card-grid">
+    <% playlists.forEach(pl => { %>
+      <div class="card">
+        <a href="/playlists/<%= pl._id %>" class="card-link">
+          <div class="card-mood mood-<%= pl.mood %>"><%= pl.mood %></div>
+          <div class="card-name"><%= pl.name %></div>
+          <div class="card-meta">
+            <%= pl.songs.length %> song<%= pl.songs.length !== 1 ? 's' : '' %> &bull;
+            <%= new Date(pl.createdAt).toLocaleDateString() %>
+          </div>
+        </a>
+        <form action="/playlists/<%= pl._id %>/delete" method="POST" class="delete-form"
+              onsubmit="return confirm('Delete this playlist?')">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

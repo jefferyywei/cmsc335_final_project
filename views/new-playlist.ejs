@@ -1,0 +1,207 @@
+<%- include('partials/header', { title: 'Create Playlist', page: 'new' }) %>
+
+<h1 class="page-title">Create a New Playlist</h1>
+
+<% if (error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<form action="/playlists" method="POST" id="playlistForm" class="form-box">
+
+  <!-- Playlist name -->
+  <div class="form-group">
+    <label for="name">Playlist Name <span class="required">*</span></label>
+    <input type="text" id="name" name="name" class="form-input"
+           placeholder="e.g. Morning Vibes" required maxlength="80" />
+  </div>
+
+  <!-- Mood -->
+  <div class="form-group">
+    <label for="mood">Mood <span class="required">*</span></label>
+    <select id="mood" name="mood" class="form-input" required>
+      <option value="">-- Select a mood --</option>
+      <option value="happy">😄 Happy</option>
+      <option value="sad">😢 Sad</option>
+      <option value="energetic">⚡ Energetic</option>
+      <option value="chill">🌊 Chill</option>
+      <option value="romantic">🌹 Romantic</option>
+      <option value="angry">🔥 Angry</option>
+      <option value="focused">🎯 Focused</option>
+    </select>
+  </div>
+
+  <!-- Number of songs -->
+  <div class="form-group">
+    <label for="numSongs">Number of Songs <span class="required">*</span></label>
+    <input type="number" id="numSongs" name="numSongs" class="form-input"
+           min="1" max="20" value="5" required />
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Song search -->
+  <h2 class="section-heading">Add Songs</h2>
+  <p class="help-text">Search for songs using the iTunes catalog, then click "Add" to add them to your playlist.</p>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" class="form-input" placeholder="Search for a song or artist..." />
+    <button type="button" class="btn btn-secondary" id="searchBtn">Search</button>
+  </div>
+
+  <div id="searchResults" class="search-results hidden"></div>
+
+  <!-- Songs list (submitted with form) -->
+  <div id="songList" class="song-list">
+    <p class="empty-songs" id="emptySongsMsg">No songs added yet.</p>
+  </div>
+  <div id="songInputs"></div>
+
+  <hr class="divider" />
+
+  <button type="submit" class="btn btn-primary">Save Playlist</button>
+  <a href="/playlists" class="btn btn-ghost">Cancel</a>
+
+</form>
+
+<script>
+// Song search using iTunes API via our own /search endpoint
+const searchInput = document.getElementById('searchInput');
+const searchBtn   = document.getElementById('searchBtn');
+const resultsBox  = document.getElementById('searchResults');
+const songList    = document.getElementById('songList');
+const emptyMsg    = document.getElementById('emptySongsMsg');
+const songInputs  = document.getElementById('songInputs');
+
+let addedSongs = [];
+
+async function doSearch() {
+  const q = searchInput.value.trim();
+  if (!q) return;
+
+  searchBtn.textContent = 'Searching...';
+  searchBtn.disabled = true;
+  resultsBox.classList.add('hidden');
+  resultsBox.innerHTML = '';
+
+  try {
+    const res  = await fetch('/search?q=' + encodeURIComponent(q));
+    const data = await res.json();
+    searchBtn.textContent = 'Search';
+    searchBtn.disabled = false;
+
+    if (!data.results || data.results.length === 0) {
+      resultsBox.innerHTML = '<p class="no-results">No results found.</p>';
+      resultsBox.classList.remove('hidden');
+      return;
+    }
+
+    data.results.forEach(function(song) {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      div.appendChild(createSongImage(song.albumCover));
+      div.appendChild(createSongInfo(song));
+
+      const addButton = document.createElement('button');
+      addButton.type = 'button';
+      addButton.className = 'btn btn-sm btn-secondary add-btn';
+      addButton.textContent = 'Add';
+      div.appendChild(addButton);
+
+      addButton.addEventListener('click', function() {
+        addSong(song);
+        addButton.textContent = 'Added';
+        addButton.disabled = true;
+      });
+
+      resultsBox.appendChild(div);
+    });
+
+    resultsBox.classList.remove('hidden');
+  } catch (err) {
+    searchBtn.textContent = 'Search';
+    searchBtn.disabled = false;
+    resultsBox.innerHTML = '<p class="no-results">Search failed. Please try again.</p>';
+    resultsBox.classList.remove('hidden');
+  }
+}
+
+function addSong(song) {
+  addedSongs.push(song);
+  renderSongList();
+}
+
+function removeSong(index) {
+  addedSongs.splice(index, 1);
+  renderSongList();
+}
+
+function renderSongList() {
+  songList.querySelectorAll('.song-row').forEach(function(el) { el.remove(); });
+  songInputs.innerHTML = '';
+
+  if (addedSongs.length === 0) {
+    emptyMsg.style.display = '';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  addedSongs.forEach(function(song, i) {
+    // Hidden inputs so songs get submitted with the form
+    ['title','artist','albumCover','previewUrl'].forEach(function(field) {
+      var inp = document.createElement('input');
+      inp.type  = 'hidden';
+      inp.name  = 'songs[' + i + '][' + field + ']';
+      inp.value = song[field] || '';
+      songInputs.appendChild(inp);
+    });
+
+    // Visual row
+    var row = document.createElement('div');
+    row.className = 'song-row';
+    row.appendChild(createSongImage(song.albumCover));
+    row.appendChild(createSongInfo(song));
+
+    var removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'btn btn-sm btn-danger';
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', function() { removeSong(i); });
+    row.appendChild(removeButton);
+
+    songList.appendChild(row);
+  });
+}
+
+function createSongImage(albumCover) {
+  const img = document.createElement('img');
+  img.src = albumCover || '';
+  img.alt = '';
+  img.className = 'result-img';
+  img.addEventListener('error', function() {
+    img.style.display = 'none';
+  });
+  return img;
+}
+
+function createSongInfo(song) {
+  const info = document.createElement('div');
+  info.className = 'result-info';
+
+  const title = document.createElement('strong');
+  title.textContent = song.title || 'Unknown title';
+
+  const artist = document.createElement('span');
+  artist.textContent = song.artist || 'Unknown artist';
+
+  info.appendChild(title);
+  info.appendChild(artist);
+  return info;
+}
+
+searchBtn.addEventListener('click', doSearch);
+searchInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+});
+</script>
+
+<%- include('partials/footer') %>

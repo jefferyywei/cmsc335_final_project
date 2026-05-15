@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %>MoodTunes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<nav class="navbar">
+  <a class="nav-brand" href="/">🎵 MoodTunes</a>
+  <ul class="nav-links">
+    <li><a href="/" class="<%= page==='home'?'active':'' %>">Home</a></li>
+    <li><a href="/playlists/new" class="<%= page==='new'?'active':'' %>">Create Playlist</a></li>
+    <li><a href="/playlists" class="<%= page==='playlists'?'active':'' %>">My Playlists</a></li>
+  </ul>
+</nav>
+<div class="container">
